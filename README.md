@@ -1,6 +1,5 @@
-# bgstats
-bgstats
-
+# {bgstats}
+Generate background table from wide-type `tbl_df` data.
 
 # Required packages
 ```R
