@@ -1,6 +1,7 @@
 
+
 # bg_fisher #####
-bg_fisher <- function(df, group, omit){
+fisher_table <- function(df, group, omit){
   df %>% 
     dplyr::select(where(is.factor)) %>% 
     mutate_all(droplevels) -> df1
@@ -47,7 +48,7 @@ bg_fisher <- function(df, group, omit){
   result %>% tbl_df} 
 
 # bg_fisher_table #####
-bg_fisher_table <- function(df, group, omit){
+fisher_table2 <- function(df, group, omit){
   df %>% 
     dplyr::select(where(is.factor)) %>% 
     mutate_all(droplevels) -> df1
@@ -95,15 +96,12 @@ bg_fisher_table <- function(df, group, omit){
   colnames(result)[2] <- paste(levels[1])
   colnames(result)[3] <- paste(levels[2])
   
-  result
+  result %>% tbl_df
 }
 
 
 # bg_wilcox #####
-group = "vs"
-digits = 1
-
-bg_wilcox <- function(df, group, omit, digits){
+wilcox_table <- function(df, group, omit, digits){
   
   df[, group] -> df_group
   colnames(df_group) <- "Group"
@@ -143,12 +141,12 @@ bg_wilcox <- function(df, group, omit, digits){
 } 
 
 # bg_tableone #####
-bg_tableone <- function(df, group, omit, digits){
-  bg_fisher_table(df,
+wilcox_fisher_table <- function(df, group, omit, digits){
+  fisher_tables(df,
             group = group,
             omit = omit) -> result_fisher
   
-  bg_wilcox(df,
+  wilcox_table(df,
             group = group,
             omit = omit,
             digits = digits) -> result_wilcox

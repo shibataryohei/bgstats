@@ -19,9 +19,9 @@ mtcars %>%
   mutate_at(c("cyl", "vs", "am"), as.factor) -> df
 ```
 
-## Fisher's exact test
+## Fisher's exact test ver.1
 ```R
-bg_fisher(df,
+fisher_table(df,
           group = "vs",
           omit = NA)
 ```
@@ -35,10 +35,26 @@ bg_fisher(df,
 3 am       0                 12  0.667         7   0.5   0.473      ""   
 ```
 
+## Fisher's exact test ver.2 
+```R
+fisher_table2(df,
+          group = "vs",
+          omit = NA)
+```
+
+```
+# A tibble: 3 x 5
+  Variable          `0`        `1`           P.value SD   
+  <chr>             <chr>      <chr>           <dbl> <chr>
+1 car [AMC Javelin] 1 (5.6%)   0 (0.0%)   1          ""   
+2 cyl [4]           1 (5.6%)   10 (71.4%) 0.00000352 ***  
+3 am [0]            12 (66.7%) 7 (50.0%)  0.473      ""   
+```
+
 ## Wilcoxon Ranksum test
 
 ```R
-bg_wilcox(df,
+wilcox_table(df,
           group = "vs",
           omit = NA,
           digits = 1)
@@ -60,7 +76,7 @@ bg_wilcox(df,
 
 ## Get tableone
 ```R
-bg_tableone(df,
+wilcox_fisher_table(df,
           group = "vs",
           omit = NA,
           digits = 1) %>% 
