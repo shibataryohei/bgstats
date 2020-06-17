@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592367594776.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "49|45|98|0|\n105|47|142|0|\n",
+    "hash" : "0",
+    "id" : "C968F3EE",
+    "lastKnownWriteTime" : 1592374002,
+    "last_content_update" : 1592374002527,
+    "path" : "~/Git/bgstats/bgstats.R",
+    "project_path" : "bgstats.R",
+    "properties" : {
+        "cursorPosition" : "47,0",
+        "scrollLine" : "39",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
