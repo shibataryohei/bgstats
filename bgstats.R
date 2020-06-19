@@ -140,7 +140,8 @@ wilcox_table <- function(df, group, omit, digits){
                        ifelse(P.value < 0.01,paste("**"),
                               ifelse(P.value < 0.05,paste("*"),
                                      paste(""))))) %>% 
-    mutate_if(is.character, as.factor) -> result
+    mutate_if(is.character, as.factor) %>% 
+    arrange(P.value) -> result
   
   colnames(result)[2] <- paste0(colnames(result)[2], " (N = ", number_groups[1], ")")
   colnames(result)[3] <- paste0(colnames(result)[3], " (N = ", number_groups[2], ")")
