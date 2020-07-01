@@ -151,13 +151,14 @@ wilcox_table <- function(df, group, omit, digits){
 
 # wilcox_fisher_table #####
 wilcox_fisher_table <- function(df, group, omit, digits){
+  df[, !names(df) %in% c(omit)] -> df
   fisher_table2(df,
             group = group,
-            omit = omit) -> result_fisher
+            omit = NA) -> result_fisher
   
   wilcox_table(df,
             group = group,
-            omit = omit,
+            omit = NA,
             digits = digits) -> result_wilcox
   
   result_fisher %>% 
