@@ -1,0 +1,9 @@
+{
+    "path" : "~/Git/bgstats",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
