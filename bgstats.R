@@ -119,10 +119,10 @@ wilcox_table <- function(df, group, omit, digits){
     group_by(Variable, group) %>% 
     get_summary_stats(Value,
                       show = c("median", "q1", "q3")) %>% 
-    mutate(Value = paste0(format(median, digits = digits),
+    mutate(Value = paste0(sprintf(median, fmt = fmt),
                           " (",
                           sprintf(q1, fmt = fmt),
-                          " - ",
+                          " – ",
                           sprintf(q3, fmt = fmt),
                           ")")) %>% 
     dplyr::select(Variable, Value, group) %>% 
@@ -167,8 +167,8 @@ wilcox_fisher_table <- function(df, group, omit, digits){
   }
 
 
-# Case control
-
+# Case control ######
+# Wilcoxon CI ######
 wilcox_CI_table <- function(df, group, omit, digits){
   
   df[, group] -> df_group
@@ -237,7 +237,9 @@ wilcox_CI_table <- function(df, group, omit, digits){
 
 # fisher
 
-fisher_CI_table <- function(df, group, omit){
+fisher_CI_table <- function(df, group, omit, digits){
+  fmt = paste0("%#.", digits, "f")
+  
   df %>% 
     dplyr::select_if(is.factor) %>% 
     mutate_all(droplevels) -> df1
