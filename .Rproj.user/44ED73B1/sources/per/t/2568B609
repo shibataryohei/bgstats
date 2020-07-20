@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2733351477",
+    "hash" : "3656401327",
     "id" : "2568B609",
-    "lastKnownWriteTime" : 1594268229,
-    "last_content_update" : 1594268229404,
+    "lastKnownWriteTime" : 1594966966,
+    "last_content_update" : 1594966966,
     "path" : "~/Git/bgstats/bgstats.R",
     "project_path" : "bgstats.R",
     "properties" : {
-        "cursorPosition" : "296,0",
-        "scrollLine" : "220"
+        "cursorPosition" : "239,26",
+        "scrollLine" : "85"
     },
     "read_only" : false,
     "read_only_alternatives" : [
