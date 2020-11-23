@@ -1,4 +1,4 @@
-
+require(rstatix)
 
 # bg_fisher #####
 fisher_table <- function(df, group, omit){
@@ -169,6 +169,7 @@ wilcox_fisher_table <- function(df, group, omit, digits){
 
 # Case control ######
 # Wilcoxon CI ######
+
 wilcox_CI_table <- function(df, group, omit, digits){
   
   df[, group] -> df_group
@@ -191,15 +192,12 @@ wilcox_CI_table <- function(df, group, omit, digits){
   df1 %>% 
     group_by(Variable, group) %>% 
     get_summary_stats(Value,
-                      show = c("median", "q1", "q3")) %>% 
-    mutate(Value = paste0(format(median, digits = digits),
-                          " (",
-                          sprintf(q1, fmt = fmt),
-                          " - ",
-                          sprintf(q3, fmt = fmt),
-                          ")")) %>% 
-    dplyr::select(Variable, Value, group) %>% 
-    spread(group, Value) -> mq1q3
+                      show = c("median")) %>% 
+    mutate(median = format(median, digits = digits)) %>% 
+    unite(group, group, n, sep = " (N = ") %>% 
+    mutate(group = paste0(group, ")")) %>% 
+    dplyr::select(-variable) %>% 
+    spread(group, median) -> df_median
   
   df1 %>% 
     mutate(Variable = as.factor(Variable)) %>% 
@@ -231,7 +229,8 @@ wilcox_CI_table <- function(df, group, omit, digits){
                        ifelse(P.value < 0.01,paste("**"),
                               ifelse(P.value < 0.05,paste("*"),
                                      paste(""))))) %>% 
-    mutate_if(is.character, as.factor)
+    mutate_if(is.character, as.factor) %>% 
+    inner_join(df_median, .)
 } 
 
 
