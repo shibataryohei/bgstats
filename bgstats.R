@@ -1,5 +1,68 @@
 require(rstatix)
 
+# df <- Metadata_tbw
+# omit <- "SubjectID"
+# digits <- 1
+
+
+
+# median_percent_table #####
+median_percent_table <- function(df, omit, digits){
+  nrow(df) -> number
+  
+  df %>% 
+    dplyr::select(where(is.numeric))  -> df_con
+  
+  df %>% 
+    dplyr::select(-omit) %>% 
+    dplyr::select(!where(is.numeric)) %>% 
+    mutate_all(droplevels) -> df_cat
+  
+  fmt = paste0("%#.", digits, "f")
+  
+  df_con %>% 
+    gather(Variable, Value) %>% 
+    group_by(Variable) %>% 
+    get_summary_stats(Value,
+                      show = c("median", "q1", "q3")) %>% 
+    mutate(Value = paste0(sprintf(median, fmt = fmt),
+                          " (",
+                          sprintf(q1, fmt = fmt),
+                          " – ",
+                          sprintf(q3, fmt = fmt),
+                          ")")) %>% 
+    dplyr::select(Variable, Value) -> mq1q3
+  
+  purrr::map(colnames(df_cat), function(x){
+    df_cat[[x]] %>% 
+      levels %>% 
+      .[1] %>% 
+      data.frame(Variable = x,
+                 Value = .)})  %>% 
+    do.call(bind_rows, .) -> levels
+  
+  df_cat %>% 
+    gather(Variable, Value) %>% 
+    group_by(Variable, Value) %>% 
+    dplyr::summarise(Count = n()) %>% 
+    inner_join(levels) %>% 
+    mutate(Ratio = Count/number*100) %>% 
+    mutate(Ratio = sprintf(Ratio, fmt = fmt)) %>% 
+    mutate(Ratio = paste0(Ratio, "%")) %>% 
+    unite(Variable, Variable, Value, sep = " [") %>% 
+    mutate(Variable = paste0(Variable, "]")) %>% 
+    unite(Value, Count, Ratio, sep = " (") %>% 
+    mutate(Value = paste0(Value, sep = ")")) -> percent
+  
+  bind_rows(mq1q3, percent) %>% 
+    arrange(Variable) %>% 
+    mutate_all(as.factor) -> median_percent 
+  
+  colnames(median_percent)[2] <- paste0("All (N = ", number, ")")
+  median_percent
+  }
+
+
 # bg_fisher #####
 fisher_table <- function(df, group, omit){
   df %>% 
@@ -370,7 +433,8 @@ fisher_table3 <- function(df, group, omit){
       bind_cols(df1[, group]) %>% 
       table -> table
     
-    fisher.test(table) %>% 
+    fisher.test(table,
+                workspace = 1000000) %>% 
       .$p.value %>% 
       data.frame(
         Variable = colnames(df2)[i],
