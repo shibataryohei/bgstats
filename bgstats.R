@@ -1,10 +1,9 @@
 require(rstatix)
+require(coin)
 
 # df <- Metadata_tbw
 # omit <- "SubjectID"
 # digits <- 1
-
-
 
 # median_percent_table #####
 median_percent_table <- function(df, omit, digits){
@@ -28,7 +27,7 @@ median_percent_table <- function(df, omit, digits){
     mutate(Value = paste0(sprintf(median, fmt = fmt),
                           " (",
                           sprintf(q1, fmt = fmt),
-                          " – ",
+                          "–",
                           sprintf(q3, fmt = fmt),
                           ")")) %>% 
     dplyr::select(Variable, Value) -> mq1q3
@@ -185,7 +184,7 @@ wilcox_table <- function(df, group, omit, digits){
     mutate(Value = paste0(sprintf(median, fmt = fmt),
                           " (",
                           sprintf(q1, fmt = fmt),
-                          " – ",
+                          "–",
                           sprintf(q3, fmt = fmt),
                           ")")) %>% 
     dplyr::select(Variable, Value, group) %>% 
@@ -240,8 +239,6 @@ wilcox_CI_table <- function(df, group, omit, digits){
   df_group$group %>% levels %>% .[1] -> group1
   df_group$group %>% levels %>% .[2] -> group2
   
-  
-  
   fmt = paste0("%#.", digits, "f")
   
   df %>%  
@@ -284,7 +281,7 @@ wilcox_CI_table <- function(df, group, omit, digits){
     mutate(`Difference in medians [95% CI]` = paste0(sprintf(DIL, fmt = fmt),
                                                       " [",
                                                       sprintf(CI_Low, fmt = fmt),
-                                                      " – ",
+                                                      "–",
                                                       sprintf(CI_High, fmt = fmt),
                                                       "]")) %>% 
     dplyr::select(Variable, `Difference in medians [95% CI]`, P.value) %>% 
@@ -346,7 +343,7 @@ fisher_CI_table <- function(df, group, omit, digits){
     mutate(`Odds ratio [95% CI]` = paste0(sprintf(OR, fmt = fmt),
                                           " [",
                                           sprintf(CI_Low, fmt = fmt),
-                                          " – ",
+                                          "–",
                                           sprintf(CI_High, fmt = fmt),
                                           "]")) %>% 
     dplyr::select(Variable, Variable1, Variable2,
@@ -358,7 +355,6 @@ fisher_CI_table <- function(df, group, omit, digits){
   
   result %>% tibble::as_tibble()
 }
-
 
 # kruskal_table #####
 
@@ -385,7 +381,7 @@ kruskal_table <- function(df, group, omit, digits){
     mutate(Value = paste0(sprintf(median, fmt = fmt),
                           " (",
                           sprintf(q1, fmt = fmt),
-                          " – ",
+                          "–",
                           sprintf(q3, fmt = fmt),
                           ")")) %>% 
     dplyr::select(Variable, Value, group) %>% 
