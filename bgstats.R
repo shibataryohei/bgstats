@@ -164,7 +164,7 @@ fisher_table2 <- function(df, group, omit){
 # wilcox_table #####
 wilcox_table <- function(df, group, omit, digits){
   
-  df[, group] -> df_group
+  df[, group, drop = FALSE] -> df_group
   colnames(df_group) <- "group"
   
   fmt = paste0("%#.", digits, "f")
@@ -214,6 +214,7 @@ wilcox_table <- function(df, group, omit, digits){
 # wilcox_fisher_table #####
 wilcox_fisher_table <- function(df, group, omit, digits){
   df[, !names(df) %in% c(omit)] -> df
+  
   fisher_table2(df,
             group = group,
             omit = NA) -> result_fisher
